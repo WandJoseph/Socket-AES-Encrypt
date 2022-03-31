@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from AESCipher import AESCipher
+from project.AESCipher import AESCipher
 from utils import random_string
 
 """
