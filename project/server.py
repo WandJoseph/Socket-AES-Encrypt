@@ -1,8 +1,5 @@
-import base64
 import socket
 import os
-import threading
-import hashlib
 from json import loads as json_load, dumps as json_dump
 
 from pyrsistent import b
@@ -88,6 +85,3 @@ class Server(socket.socket):
         message_bytes = message_encrypted.encode("utf-8")
         print(f"\tSending \"{message}\"\n\tencrypted: {message_encrypted}\n")
         client.send(message_bytes)
-
-
-server = Server(8888)

@@ -1,9 +1,7 @@
 from os import urandom
 import socket
-import threading
 import unittest
 from project.AESCipher import AESCipher
-import project.crypto
 
 from project.client import Client
 
