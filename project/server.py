@@ -25,12 +25,17 @@ class Server(socket.socket):
     def acceptConnections(self):
         print(f'[*] Server started on port {self.port}')
         while True:
-            client, address = self.accept()
-            print(f"Client connected from {address}")
-            # DECRYPT USING PRIVATE KEY TO CHECK PASSWORD
-            self.auth(client, address)
-            self.receiveEncrypted(client, address)
-            # THE SERVER WILL SEND A RANDOMLY GENERATED AES KEY AS KEY + SIGNATURE (SIGNED WITH PRIVATE KEY) TO THE CLIENT
+            try:
+                client, address = self.accept()
+                print(f"Client connected from {address}")
+                # DECRYPT USING PRIVATE KEY TO CHECK PASSWORD
+                self.auth(client, address)
+                self.receiveEncrypted(client, address)
+                # THE SERVER WILL SEND A RANDOMLY GENERATED AES KEY AS KEY + SIGNATURE (SIGNED WITH PRIVATE KEY) TO THE CLIENT
+            except Exception as e:
+                print(e)
+                client.close()
+                pass
 
     def auth(self, client: socket.socket, address):
         message_bytes: bytes = client.recv(1024)
@@ -67,11 +72,12 @@ class Server(socket.socket):
                 self.sendEncrypted(client, address, reply)
         except KeyError:
             print("\tClient not authenticated")
+            client.send(b("Client not authenticated"))
             client.close()
             pass
         except Exception as e:
             print("\tError in message decryption")
-            print(e)
+            client.send("Decryption failed!".encode("utf-8"))
             client.close()
             pass
 
@@ -84,4 +90,4 @@ class Server(socket.socket):
         client.send(message_bytes)
 
 
-server = Server(1454)
+server = Server(8888)
