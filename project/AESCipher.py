@@ -1,5 +1,4 @@
 from base64 import b64decode, b64encode
-import hashlib
 from Crypto import Random
 from Crypto.Cipher import AES
 

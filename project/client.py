@@ -1,4 +1,3 @@
-import base64
 import socket
 from project.AESCipher import AESCipher
 
